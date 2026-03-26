@@ -86,6 +86,7 @@ class TagEditorViewModel @Inject constructor(
             LyricsResult.NetworkError -> null
             is LyricsResult.FoundPlainLyrics -> lyrics.plainLyrics.lines.joinToString("\n")
             is LyricsResult.FoundSyncedLyrics -> lyrics.syncedLyrics.originalString
+            is LyricsResult.FoundTtmlLyrics -> lyrics.ttmlContent
         }
     }
 

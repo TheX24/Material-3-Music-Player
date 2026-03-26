@@ -44,7 +44,31 @@ class LyricsRepository @Inject constructor(
         durationSeconds: Int
     ): LyricsResult = withContext(Dispatchers.IO) {
 
-        val audioFileIO = AudioFileIO().readFile(File(mediaRepository.getSongPath(uri)))
+        val songPath = mediaRepository.getSongPath(uri)
+        val audioFile = File(songPath)
+
+        // 1. Check for local TTML file (rich spicy lyrics)
+        val ttmlFile = File(audioFile.parent, audioFile.nameWithoutExtension + ".ttml")
+        if (ttmlFile.exists()) {
+            return@withContext LyricsResult.FoundTtmlLyrics(
+                ttmlFile.readText(),
+                LyricsFetchSource.FROM_LOCAL_FILE
+            )
+        }
+
+        // 2. Check for local LRC file
+        val lrcFile = File(audioFile.parent, audioFile.nameWithoutExtension + ".lrc")
+        if (lrcFile.exists()) {
+            val syncedLyrics = SynchronizedLyrics.fromString(lrcFile.readText())
+            if (syncedLyrics != null) {
+                return@withContext LyricsResult.FoundSyncedLyrics(
+                    syncedLyrics,
+                    LyricsFetchSource.FROM_LOCAL_FILE
+                )
+            }
+        }
+
+        val audioFileIO = AudioFileIO().readFile(audioFile)
         val tags = audioFileIO.tagOrCreateAndSetDefault
 
         // check for embedded lyrics first

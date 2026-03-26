@@ -24,6 +24,11 @@ sealed interface LyricsScreenState {
         val lyricsSource: LyricsFetchSource
     ): LyricsScreenState
 
+    data class TtmlLyrics(
+        val parsedLyrics: com.omar.nowplaying.spicy.models.ParsedLyrics,
+        val lyricsSource: LyricsFetchSource
+    ): LyricsScreenState
+
     data class NoLyrics(val reason: NoLyricsReason): LyricsScreenState
 }
 

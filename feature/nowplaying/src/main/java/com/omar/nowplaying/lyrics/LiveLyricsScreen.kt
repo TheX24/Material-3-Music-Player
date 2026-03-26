@@ -53,9 +53,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.omar.musica.model.lyrics.LyricsFetchSource
 import com.omar.musica.model.lyrics.PlainLyrics
 import com.omar.musica.model.lyrics.SynchronizedLyrics
+import com.omar.nowplaying.spicy.canvas.SpicyLyricsView
+import com.omar.nowplaying.lyrics.toSpicyLines
+import com.omar.nowplaying.spicy.models.ParsedLyrics
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.mutableLongStateOf
 
 
 @Composable
@@ -99,6 +103,15 @@ fun LiveLyricsScreen(
             SyncedLyricsState(
                 modifier = modifier,
                 synchronizedLyrics = state.syncedLyrics,
+                lyricsFetchSource = state.lyricsSource,
+                onSeekToPositionMillis = onSeekToPositionMillis,
+                songProgressMillis = songProgressMillis
+            )
+
+        is LyricsScreenState.TtmlLyrics ->
+            TtmlLyricsState(
+                modifier = modifier,
+                parsedLyrics = state.parsedLyrics,
                 lyricsFetchSource = state.lyricsSource,
                 onSeekToPositionMillis = onSeekToPositionMillis,
                 songProgressMillis = songProgressMillis
@@ -252,94 +265,49 @@ fun SyncedLyricsState(
     onSeekToPositionMillis: (Long) -> Unit,
     songProgressMillis: () -> Long
 ) {
-
-    var lyricIndex by remember(synchronizedLyrics) {
-        mutableStateOf(-1)
+    val spicyLines = remember(synchronizedLyrics) {
+        synchronizedLyrics.toSpicyLines()
     }
 
-    val listState = rememberLazyListState()
+    var currentTimeMs by remember { mutableLongStateOf(0L) }
 
-    val density = LocalDensity.current
-    val itemsSpacing = 12.dp
-    val itemsSpacingPx = with(density) { itemsSpacing.toPx() }
-
-    val coroutineScope = rememberCoroutineScope()
-    var listHeightPx by remember {
-        mutableStateOf(0)
-    }
-    var contextMenuShownIndex by remember {
-        mutableStateOf(-1)
+    LaunchedEffect(synchronizedLyrics) {
+        while (isActive) {
+            currentTimeMs = songProgressMillis()
+            delay(16)
+        }
     }
 
     var actionsShown by remember {
         mutableStateOf(true)
     }
 
-    val scrollListener = object : NestedScrollConnection {
-        override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-            if (available.y > 1.0)
-                actionsShown = true
-            return Offset.Zero
-        }
-    }
-
     LaunchedEffect(key1 = actionsShown) {
-        delay(1000)
-        if (actionsShown) actionsShown = false
-    }
-
-    LyricSynchronizerEffect(
-        synchronizedLyrics = synchronizedLyrics,
-        songProgressMillis = songProgressMillis
-    ) {
-        if (lyricIndex == it) return@LyricSynchronizerEffect
-        lyricIndex = it
-        if (contextMenuShownIndex == -1)
-            coroutineScope.launch {
-                val visibleItems = listState.layoutInfo.visibleItemsInfo
-                val itemInfo = visibleItems.find { it.index == lyricIndex }
-                val shouldNotScroll = itemInfo != null && itemInfo.offset <= listHeightPx / 2.0f
-                if (!shouldNotScroll) {
-                    listState.animateScrollToItem(it, -itemsSpacingPx.toInt())
-                    actionsShown = false
-                }
-            }
-    }
-
-    val vibrationManager = LocalHapticFeedback.current
-    Box(modifier.onGloballyPositioned { listHeightPx = it.size.height }) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollListener),
-            state = listState
-        ) {
-            itemsIndexed(synchronizedLyrics.segments) { index, segment ->
-                LyricLine(
-                    modifier = Modifier
-                        .fillMaxWidth(0.9f)
-                        .pointerInput(Unit) {
-                            detectTapGestures(
-                                onPress = { actionsShown = true },
-                                onLongPress = {
-                                    contextMenuShownIndex = index
-                                    vibrationManager.performHapticFeedback(HapticFeedbackType.LongPress)
-                                }
-                            ) {
-                                onSeekToPositionMillis(segment.durationMillis.toLong())
-                            }
-                        },
-                    line = segment.text,
-                    isCurrentLine = index == lyricIndex && contextMenuShownIndex == -1,
-                    isShowingContextMenu = index == contextMenuShownIndex,
-                    onDismissContextMenu = { contextMenuShownIndex = -1 }
-                )
-
-                Spacer(modifier = Modifier.height(itemsSpacing))
-            }
+        if (actionsShown) {
+            delay(3000)
+            actionsShown = false
         }
+    }
 
-        val clipboardManager = LocalClipboardManager.current
+    val clipboardManager = LocalClipboardManager.current
+
+    Box(
+        modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { actionsShown = !actionsShown })
+            }
+    ) {
+        SpicyLyricsView(
+            lines = spicyLines,
+            currentTimeMs = currentTimeMs,
+            onSeekWord = {
+                onSeekToPositionMillis(it)
+                actionsShown = false
+            },
+            modifier = Modifier.fillMaxSize()
+        )
+
         LyricsActions(
             modifier = Modifier
                 .fillMaxHeight()
@@ -349,6 +317,72 @@ fun SyncedLyricsState(
             onFetchWebVersion = { /*TODO*/ },
             onCopy = {
                 clipboardManager.setText(AnnotatedString(synchronizedLyrics.constructStringForSharing()))
+                actionsShown = false
+            }
+        )
+    }
+}
+
+@Composable
+fun TtmlLyricsState(
+    modifier: Modifier,
+    parsedLyrics: ParsedLyrics,
+    lyricsFetchSource: LyricsFetchSource,
+    onSeekToPositionMillis: (Long) -> Unit,
+    songProgressMillis: () -> Long
+) {
+    var currentTimeMs by remember { mutableLongStateOf(0L) }
+
+    LaunchedEffect(parsedLyrics) {
+        while (isActive) {
+            currentTimeMs = songProgressMillis()
+            delay(16)
+        }
+    }
+
+    var actionsShown by remember {
+        mutableStateOf(true)
+    }
+
+    LaunchedEffect(key1 = actionsShown) {
+        if (actionsShown) {
+            delay(3000)
+            actionsShown = false
+        }
+    }
+
+    val clipboardManager = LocalClipboardManager.current
+
+    Box(
+        modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { actionsShown = !actionsShown })
+            }
+    ) {
+        SpicyLyricsView(
+            lines = parsedLyrics.lines,
+            currentTimeMs = currentTimeMs,
+            onSeekWord = {
+                onSeekToPositionMillis(it)
+                actionsShown = false
+            },
+            modifier = Modifier.fillMaxSize()
+        )
+
+        LyricsActions(
+            modifier = Modifier
+                .fillMaxHeight()
+                .align(Alignment.CenterEnd),
+            isShown = actionsShown,
+            lyricsFetchSource = lyricsFetchSource,
+            onFetchWebVersion = { /*TODO*/ },
+            onCopy = {
+                val fullText = parsedLyrics.lines.filter { !it.isInterlude && !it.isSongwriter }
+                    .joinToString("\n") { line ->
+                        line.words.joinToString(" ") { it.text }
+                    }
+                clipboardManager.setText(AnnotatedString(fullText))
                 actionsShown = false
             }
         )

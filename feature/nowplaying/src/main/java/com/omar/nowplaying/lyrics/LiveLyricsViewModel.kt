@@ -88,6 +88,13 @@ class LiveLyricsViewModel @Inject constructor(
 
             is LyricsResult.FoundSyncedLyrics ->
                 LyricsScreenState.SyncedLyrics(lyricsResult.syncedLyrics, lyricsResult.lyricsSource)
+
+            is LyricsResult.FoundTtmlLyrics -> {
+                val parsed = com.omar.nowplaying.spicy.parser.TtmlLyricsParser.parse(
+                    lyricsResult.ttmlContent.byteInputStream()
+                )
+                LyricsScreenState.TtmlLyrics(parsed, lyricsResult.lyricsSource)
+            }
         }
 
         if (isActive)

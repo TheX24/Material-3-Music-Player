@@ -70,6 +70,7 @@ import com.omar.nowplaying.queue.QueueScreen
 import com.omar.nowplaying.song
 import com.omar.nowplaying.viewmodel.INowPlayingViewModel
 import com.omar.nowplaying.viewmodel.NowPlayingViewModel
+import com.omar.nowplaying.ui.SpicyDynamicBackground
 import kotlin.math.abs
 
 
@@ -229,11 +230,9 @@ fun FullScreenNowPlaying(
 
             Box(modifier = Modifier.matchParentSize()) {
 
-                MorphingBlurredAlbumArtBackground(
+                SpicyDynamicBackground(
                     modifier = Modifier.fillMaxSize(),
-                    songs = uiState.queue,
-                    currentIndex = pagerState.currentPage,
-                    swipeOffsetProvider = { pagerState.currentPageOffsetFraction }
+                    song = uiState.queue.getOrNull(pagerState.currentPage)
                 )
 
                 val screenHeight = LocalContext.current.resources.displayMetrics.heightPixels

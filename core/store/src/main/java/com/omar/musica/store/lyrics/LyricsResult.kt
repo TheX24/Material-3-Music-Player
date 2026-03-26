@@ -20,4 +20,9 @@ sealed interface LyricsResult {
         val syncedLyrics: SynchronizedLyrics,
         val lyricsSource: LyricsFetchSource
     ): LyricsResult
+
+    data class FoundTtmlLyrics(
+        val ttmlContent: String,
+        val lyricsSource: LyricsFetchSource
+    ): LyricsResult
 }
