@@ -98,8 +98,8 @@ fun SpicyAppMenu(
                 // Background Dim
                 AnimatedVisibility(
                     visibleState = transitionState,
-                    enter = fadeIn(animationSpec = tween(300)),
-                    exit = fadeOut(animationSpec = tween(300))
+                    enter = fadeIn(animationSpec = tween(200)),
+                    exit = fadeOut(animationSpec = tween(150))
                 ) {
                     Box(
                         modifier = Modifier

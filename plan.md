@@ -108,4 +108,4 @@
   - [ ] Fix button alignment with seekbar
   - [ ] Low quality cover art
   - [ ] Fix TTML & song matching
-  - [ ] Add A-Z scroller to playlist and albums tab
+  - [ ] Overflow menu shadow fades too slow
