@@ -102,10 +102,10 @@
   - [ ] Skipping at the end of queue
   - [ ] Fast word fade-in
   - [ ] Fix cover art swipe gesture working half the time
-  - [ ] Fix animations/transistions between pages
+  - [x] Fix animations/transistions between pages
   - [ ] Add crossfade
   - [ ] Organize the project folders
   - [ ] Fix button alignment with seekbar
   - [ ] Low quality cover art
   - [ ] Fix TTML & song matching
-  - [ ] Overflow menu shadow fades too slow
+  - [x] Overflow menu shadow fades too slow

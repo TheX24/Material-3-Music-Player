@@ -28,6 +28,7 @@ import coil.size.SizeResolver
 import com.omar.musica.store.model.song.Song
 import com.omar.musica.ui.R
 import com.omar.musica.ui.albumart.BlurTransformation
+import com.omar.musica.ui.albumart.LocalEfficientThumbnailImageLoader
 import com.omar.musica.ui.albumart.LocalInefficientThumbnailImageLoader
 import com.omar.musica.ui.albumart.SongAlbumArtModel
 import com.omar.musica.ui.albumart.inefficientAlbumArtImageLoader
@@ -54,6 +55,7 @@ fun NowPlayingSquareAlbumArt(
     val imageRequest = remember(song) {
         ImageRequest.Builder(context)
             .data(song)
+            .size(Size.ORIGINAL)
             .crossfade(false)
             .build()
     }
@@ -66,7 +68,7 @@ fun NowPlayingSquareAlbumArt(
         error = painterResource(R.drawable.placeholder),
         placeholder = painterResource(R.drawable.placeholder),
         model = imageRequest,
-        imageLoader = LocalInefficientThumbnailImageLoader.current
+        imageLoader = LocalEfficientThumbnailImageLoader.current
     )
 }
 
