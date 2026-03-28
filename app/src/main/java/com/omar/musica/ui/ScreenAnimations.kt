@@ -14,12 +14,29 @@ import com.omar.musica.albums.navigation.ALBUM_DETAIL_ROUTE
 import com.omar.musica.songs.navigation.SEARCH_ROUTE
 import com.omar.musica.songs.navigation.SONGS_ROUTE
 import com.omar.musica.tageditor.navigation.TAG_EDITOR_SCREEN
+import com.omar.musica.ui.anim.BACKWARD_ENTER_ANIMATION
+import com.omar.musica.ui.anim.BACKWARD_EXIT_ANIMATION
+import com.omar.musica.ui.anim.FORWARD_ENTER_ANIMATION
+import com.omar.musica.ui.anim.FORWARD_EXIT_ANIMATION
 import com.omar.musica.ui.anim.OPEN_SCREEN_ENTER_ANIMATION
 import com.omar.musica.ui.anim.OPEN_SCREEN_EXIT_ANIMATION
 import com.omar.musica.ui.anim.POP_SCREEN_ENTER_ANIMATION
 import com.omar.musica.ui.anim.POP_SCREEN_EXIT_ANIMATION
 import com.omar.musica.ui.anim.SLIDE_DOWN_EXIT_ANIMATION
 import com.omar.musica.ui.anim.SLIDE_UP_ENTER_ANIMATION
+
+
+private fun getRouteIndex(route: String?): Int {
+    if (route == null) return -1
+    return when {
+        route.contains("songs", ignoreCase = true) || route.contains("search", ignoreCase = true) -> 0
+        route.contains("playlist", ignoreCase = true) -> 1
+        route.contains("album", ignoreCase = true) -> 2
+        route.contains("settings", ignoreCase = true) -> 3
+        route.contains("tag", ignoreCase = true) -> 4
+        else -> -1
+    }
+}
 
 
 /*
@@ -34,6 +51,12 @@ fun getEnterAnimationForRoute(
 ): EnterTransition {
 
     val initialRoute = scope.initialState.destination.route
+    val initialIndex = getRouteIndex(initialRoute)
+    val targetIndex = getRouteIndex(route)
+
+    if (initialIndex != -1 && targetIndex != -1 && initialIndex != targetIndex) {
+        return if (targetIndex > initialIndex) FORWARD_ENTER_ANIMATION else BACKWARD_ENTER_ANIMATION
+    }
 
     if (route == SONGS_ROUTE)
         return when {
@@ -72,6 +95,12 @@ fun getExitAnimationForRoute(
 ): ExitTransition {
 
     val destinationRoute = scope.targetState.destination.route
+    val initialIndex = getRouteIndex(route)
+    val targetIndex = getRouteIndex(destinationRoute)
+
+    if (initialIndex != -1 && targetIndex != -1 && initialIndex != targetIndex) {
+        return if (targetIndex > initialIndex) FORWARD_EXIT_ANIMATION else BACKWARD_EXIT_ANIMATION
+    }
 
     if (route == SONGS_ROUTE)
         return when {
@@ -111,6 +140,12 @@ fun getPopEnterAnimationForRoute(
 ): EnterTransition {
 
     val initialRoute = scope.initialState.destination.route
+    val initialIndex = getRouteIndex(initialRoute)
+    val targetIndex = getRouteIndex(route)
+
+    if (initialIndex != -1 && targetIndex != -1 && initialIndex != targetIndex) {
+        return if (targetIndex > initialIndex) FORWARD_ENTER_ANIMATION else BACKWARD_ENTER_ANIMATION
+    }
 
     if (route == SONGS_ROUTE)
         return when {
@@ -150,6 +185,12 @@ fun getPopExitAnimationForRoute(
 ): ExitTransition {
 
     val destinationRoute = scope.targetState.destination.route
+    val initialIndex = getRouteIndex(route)
+    val targetIndex = getRouteIndex(destinationRoute)
+
+    if (initialIndex != -1 && targetIndex != -1 && initialIndex != targetIndex) {
+        return if (targetIndex > initialIndex) FORWARD_EXIT_ANIMATION else BACKWARD_EXIT_ANIMATION
+    }
 
     if (route == SONGS_ROUTE)
         return when {

@@ -39,6 +39,24 @@ val POP_SCREEN_EXIT_ANIMATION: ExitTransition =
     slideOutHorizontally(targetOffsetX = { it }, animationSpec = expressiveSlideSpring) +
             fadeOut(animationSpec = expressiveSpring)
 
+
+val FORWARD_ENTER_ANIMATION: EnterTransition =
+    slideInHorizontally(initialOffsetX = { it }, animationSpec = expressiveSlideSpring) +
+            fadeIn(animationSpec = expressiveSpring)
+
+val FORWARD_EXIT_ANIMATION: ExitTransition =
+    slideOutHorizontally(targetOffsetX = { -it }, animationSpec = expressiveSlideSpring) +
+            fadeOut(animationSpec = expressiveSpring)
+
+val BACKWARD_ENTER_ANIMATION: EnterTransition =
+    slideInHorizontally(initialOffsetX = { -it }, animationSpec = expressiveSlideSpring) +
+            fadeIn(animationSpec = expressiveSpring)
+
+val BACKWARD_EXIT_ANIMATION: ExitTransition =
+    slideOutHorizontally(targetOffsetX = { it }, animationSpec = expressiveSlideSpring) +
+            fadeOut(animationSpec = expressiveSpring)
+
+
 val SLIDE_UP_ENTER_ANIMATION: EnterTransition =
     slideInVertically(initialOffsetY = { it / 2 }, animationSpec = expressiveSlideSpring) +
             fadeIn(animationSpec = expressiveSpring)

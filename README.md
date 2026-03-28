@@ -3,16 +3,17 @@
 # 🎵 Material 3 Music Player
 
 This is a material3 offline music application created
-using Kotlin and Jetpack Compose 
+using Kotlin and Jetpack Compose
 
 ### Libraries Used
-* Media3
-* Jetpack Compose
-* Retrofit
-* Hilt
-* Coil
-* Room
-* Jaudio-Tagger
+
+- Media3
+- Jetpack Compose
+- Retrofit
+- Hilt
+- Coil
+- Room
+- Jaudio-Tagger
 
 # Screenshots
 
@@ -29,22 +30,8 @@ using Kotlin and Jetpack Compose
 7. Automatically fetches synchronized lyrics for songs without lyrics
 8. Dynamic Color Scheme, and theming options
 9. Blacklist Folders
-10. Create a playlist from the current queue 
+10. Create a playlist from the current queue
 11. Circular and rectangular home screen widgets (currently in alpha)
-
-# TODO
-
-This is a non-comprehensive lists of things I want to finish for this app in the future.
-If you want to contribute. Feel free to do a pull request.
-
-I will not add items to this list until they are all done.
-
-- [ ] Save playlists and import using `.m3u` format
-- [ ] Finish the widgets implementations
-- [ ] Create an `Artists` screen
-- [ ] Add ability to create shortcuts for Albums too 
-- [ ] Add folders view to allow users to easily organize their files
-- [ ] Allow users to edit lyrics in the tag editor
 
 # Credits
 

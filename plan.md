@@ -1,0 +1,111 @@
+- Features
+  - Lyrics aspect
+    - [x] TTML parser
+    - [x] Compose lyrics list
+    - [x] Word renderer
+    - [x] Smooth scroll with inertia
+    - [x] Tap to seek
+    - [x] 3 Dots Interlude indicator
+    - [x] Dynamic Background
+      - [ ] Port Kawarp
+    - [ ] Update word-wrapping to match Spicy Lyrics
+    - [ ] Romanization
+    - [ ] Translation (?)
+    - [ ] Line synced lyrics
+    - [ ] Static lyrics
+    - [ ] Spicy Lyrics-like settings
+    - [ ] Landscape view
+      - [ ] Split screen layout with cover art/controls on the left and scrolling lyrics on the right
+    - [ ] Fixes
+      - [ ] Resolve overlapping text issues during fast sections or duets
+      - [ ] Improve parser resilience for malformed `.ttml` files to prevent crashes
+    - [ ] API's
+      - [x] LRCLIB
+      - [ ] Paxsenix
+  - Audio player aspect
+    - [x] ExoPlayer
+    - [x] Folder scanner + auto-pairing
+      - [x] Implement file picker to scan `/Music/` directory
+        - [x] Use Android Storage Access Framework (SAF) for scoped storage compliance
+        - [x] Background service for scanning with a progress notification
+      - [x] Auto-pair `.flac` and `.ttml` files based on name
+      - [ ] Multiple folder support
+    - [x] Implement MediaSession for song info broadcasting
+    - [ ] UI
+      - [ ] Introduction screen
+        - [ ] Greeting
+        - [ ] Tutorial
+        - [ ] Select folder to scan
+        - [ ] Show progress of scanning
+      - [x] Library
+        - [x] Categorized tabs: Albums, Artists, Songs, Folders, and Playlists
+          - [ ] Artists
+          - [ ] Folders
+          - [x] Playlist
+            - [ ] Add .m3u support
+        - [x] Grid view for Albums/Artists with fast-scroll alphabet indexer on the right edge
+        - [x] Playlists
+        - [ ] Update to M3E
+      - [x] Queue
+        - [x] Drag-and-drop to reorder tracks
+        - [x] Swipe left/right to remove a track from the queue
+        - [x] Sleep timer
+        - [ ] Update to M3E
+      - [x] Now Playing
+        - [ ] Fully hide controls
+        - [x] Swipe horizontally to skip to previous/next track
+        - [x] Show/hide lyrics overlay
+        - [x] Controls
+          - [ ] Advanced controls
+        - [x] Progress bar
+        - [x] Cover art and track info
+          - [x] Auto expand cover art and track info to middle if no TTML is found
+            - [x] Use `animateContentSize` or `updateTransition` in Compose for a smooth centering animation
+          - [x] Scrolling track info if too long
+      - [ ] Spectrum visualization
+        - [ ] Fetch audio session ID from ExoPlayer to drive visualizer data
+        - [ ] Multiple visualizer styles (e.g., bar graph, waveform, circular aura around cover art)
+  - Settings
+    - [ ] Update to M3E
+    - [ ] Lyrics settings
+      - [ ] Global offset/delay adjustment (e.g., ±500ms) for out-of-sync lyrics
+      - [ ] Custom font size
+    - [ ] Audio player settings
+      - [ ] Musicolet-like EQ
+      - [ ] Crossfade duration slider (0-10 seconds) and gapless playback toggle
+    - [x] General settings
+      - [x] App theme selector (Light, Dark, System Default, Material You)
+      - [ ] Cache management (clear cached images/lyrics to free up space)
+      - [ ] Keep screen on
+      - [ ] Scan directory
+      - [ ] Audio focus mode
+      - [ ] Rescan library
+        - [ ] Cache scanned and matched
+    - [ ] Reset to defaults
+    - [ ] Add more settings
+  - General
+    - [ ] Update checking
+- Bugs
+  - [ ] RTL Languages
+    - [ ] Ensure the Word renderer calculates layout widths properly from right to left
+    - [ ] Mirror the scroll direction metrics for RTL text in the lyrics list
+    - [ ] Flip gradient scan direction
+    - [ ] Turn off held word animation
+  - [ ] Held word animation
+    - [ ] Slower anims look fine but faster anims look weird
+    - [ ] Don't animate punctuation
+    - [ ] Same letters in the word highlight
+  - [ ] Bluetooth/general audio delay fix
+  - [ ] Custom EQ
+  - [ ] Performance improvements
+  - [ ] Fix unrestrict battery usage setting
+  - [ ] Skipping at the end of queue
+  - [ ] Fast word fade-in
+  - [ ] Fix cover art swipe gesture working half the time
+  - [ ] Fix animations/transistions between pages
+  - [ ] Add crossfade
+  - [ ] Organize the project folders
+  - [ ] Fix button alignment with seekbar
+  - [ ] Low quality cover art
+  - [ ] Fix TTML & song matching
+  - [ ] Add A-Z scroller to playlist and albums tab
