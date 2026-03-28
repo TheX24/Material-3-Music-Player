@@ -194,6 +194,27 @@ internal fun NowPlayingScreen(
                 mutableStateOf(false)
             }
             NowPlayingMaterialTheme(playerThemeUi = playerTheme) {
+                MiniPlayer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(barHeight)
+                        .padding(nowPlayingBarPadding)
+                        .pointerInput(isExpanded) {
+                            if (!isExpanded) {
+                                detectTapGestures { onExpandNowPlaying() }
+                            }
+                        }
+                        .graphicsLayer {
+                            alpha = (1 - (progressProvider() * 6.66f).coerceAtMost(1.0f))
+                        },
+                    nowPlayingState = uiState,
+                    showExtraControls = LocalUserPreferences.current.uiSettings.showMiniPlayerExtraControls,
+                    songProgressProvider = nowPlayingActions::currentSongProgress,
+                    enabled = !isExpanded, // if the view is expanded then disable the header
+                    nowPlayingActions::togglePlayback,
+                    nowPlayingActions::nextSong,
+                    nowPlayingActions::previousSong
+                )
 
                 FullScreenNowPlaying(
                     Modifier
@@ -214,27 +235,6 @@ internal fun NowPlayingScreen(
             LaunchedEffect(key1 = isExpanded) {
                 if (!isExpanded) isShowingQueue = false
             }
-            MiniPlayer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(barHeight)
-                    .padding(nowPlayingBarPadding)
-                    .pointerInput(isExpanded) {
-                        if (!isExpanded) {
-                            detectTapGestures { onExpandNowPlaying() }
-                        }
-                    }
-                    .graphicsLayer {
-                        alpha = (1 - (progressProvider() * 6.66f).coerceAtMost(1.0f))
-                    },
-                nowPlayingState = uiState,
-                showExtraControls = LocalUserPreferences.current.uiSettings.showMiniPlayerExtraControls,
-                songProgressProvider = nowPlayingActions::currentSongProgress,
-                enabled = !isExpanded, // if the view is expanded then disable the header
-                nowPlayingActions::togglePlayback,
-                nowPlayingActions::nextSong,
-                nowPlayingActions::previousSong
-            )
         }
     }
 }

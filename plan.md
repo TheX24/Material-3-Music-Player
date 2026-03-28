@@ -101,11 +101,11 @@
   - [ ] Fix unrestrict battery usage setting
   - [ ] Skipping at the end of queue
   - [ ] Fast word fade-in
-  - [ ] Fix cover art swipe gesture working half the time
+  - [x] Fix cover art swipe gesture working half the time
   - [x] Fix animations/transistions between pages
   - [ ] Add crossfade
   - [ ] Organize the project folders
   - [ ] Fix button alignment with seekbar
-  - [ ] Low quality cover art
+  - [x] Low quality cover art
   - [ ] Fix TTML & song matching
   - [x] Overflow menu shadow fades too slow

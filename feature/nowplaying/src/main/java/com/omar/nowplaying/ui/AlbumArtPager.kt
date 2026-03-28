@@ -45,43 +45,19 @@ fun AlbumArtPager(
     val pagerState = LocalPagerState.current
     var lastReportedPage by remember { mutableIntStateOf(pagerState.targetPage) }
 
-    var isDragging by remember { mutableStateOf(false) }
 
 
 
-    LaunchedEffect(Unit) {
-        pagerState.interactionSource.interactions.collect { interaction ->
-            when (interaction) {
-                is DragInteraction.Start -> {
-                    isDragging = true
-                }
-
-                is DragInteraction.Stop, is DragInteraction.Cancel -> {
-                    isDragging = false
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.targetPage }
+            .distinctUntilChanged()
+            .collect { page ->
+                if (lastReportedPage != page) {
+                    lastReportedPage = page
+                    onSongSwitched(page)
                 }
             }
-        }
     }
-
-    // 🔄 Respond immediately to swipe changes (while dragging)
-    LaunchedEffect(pagerState.targetPage, isDragging) {
-        if (lastReportedPage != pagerState.targetPage) {
-            lastReportedPage = pagerState.targetPage
-            if (!isDragging)
-                onSongSwitched(pagerState.targetPage)
-        }
-    }
-//    LaunchedEffect(pagerState) {
-//        snapshotFlow { pagerState.targetPage }
-//            .distinctUntilChanged()
-//            .collect { page ->
-//                if (lastReportedPage != page) {
-//                    lastReportedPage = page
-//                    if (!isDragging)
-//                        onSongSwitched(page)
-//                }
-//            }
-//    }
 
     HorizontalPager(
         state = pagerState,
