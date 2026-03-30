@@ -1,7 +1,7 @@
 
 import com.android.build.gradle.LibraryExtension
-import com.omar.musica.convention.configureKotlinAndroid
-import com.omar.musica.convention.libs
+import com.tx24.spicyplayer.convention.configureKotlinAndroid
+import com.tx24.spicyplayer.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure

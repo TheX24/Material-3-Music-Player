@@ -15,8 +15,8 @@
  */
 
 import com.android.build.api.dsl.ApplicationExtension
-import com.omar.musica.convention.configureKotlinAndroid
-import com.omar.musica.convention.libs
+import com.tx24.spicyplayer.convention.configureKotlinAndroid
+import com.tx24.spicyplayer.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -28,7 +28,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
-                apply("com.omar.android.hilt")
+                apply("com.tx24.android.hilt")
             }
 
             dependencies {

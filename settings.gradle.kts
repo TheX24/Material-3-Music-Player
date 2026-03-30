@@ -1,13 +1,5 @@
 import java.net.URI
 
-include(":feature:widgets")
-
-
-include(":feature:albums")
-
-
-include(":core:network")
-
 
 pluginManagement {
     includeBuild("build-logic")
@@ -26,15 +18,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Musica"
+rootProject.name = "Spicy Player"
 include(":app")
-include(":core:model")
-include(":core:store")
-include(":core:playback")
-include(":core:ui")
-include(":feature:songs")
-include(":feature:playlists")
-include(":feature:nowplaying")
-include(":core:database")
-include(":feature:settings")
-include(":feature:tageditor")
+

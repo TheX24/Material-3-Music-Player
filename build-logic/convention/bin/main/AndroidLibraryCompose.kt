@@ -1,5 +1,5 @@
 import com.android.build.gradle.LibraryExtension
-import com.omar.musica.convention.configureAndroidCompose
+import com.tx24.spicyplayer.convention.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getByType

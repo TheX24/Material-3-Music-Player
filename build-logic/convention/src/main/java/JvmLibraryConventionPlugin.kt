@@ -15,7 +15,7 @@
  */
 
 
-import com.omar.musica.convention.configureKotlinJvm
+import com.tx24.spicyplayer.convention.configureKotlinJvm
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

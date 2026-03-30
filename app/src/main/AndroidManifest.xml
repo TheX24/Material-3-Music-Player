@@ -22,9 +22,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:name=".MusicaApplication"
+        android:name=".SpicyApplication"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Musica"
+        android:theme="@style/Theme.SpicyPlayer"
         android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
         <activity
@@ -32,7 +32,7 @@
             android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.Musica">
+            android:theme="@style/Theme.SpicyPlayer">
             <!-- android:windowSoftInputMode="adjustResize" -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,18 +44,18 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="musica" android:host="albums"/>
+                <data android:scheme="spicyplayer" android:host="albums"/>
             </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="musica" android:host="playlists"/>
+                <data android:scheme="spicyplayer" android:host="playlists"/>
             </intent-filter>
         </activity>
         <service
-            android:name="com.omar.musica.store.ScanService"
+            android:name="com.tx24.spicyplayer.library.store.ScanService"
             android:foregroundServiceType="dataSync"
             android:exported="false" />
 

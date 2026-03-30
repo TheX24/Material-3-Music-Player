@@ -19,31 +19,31 @@ java {
 gradlePlugin {
     plugins {
         register("AndroidLibrary") {
-            id = "com.omar.android.library"
+            id = "com.tx24.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
         register("JvmLibrary") {
-            id = "com.omar.kotlin.library"
+            id = "com.tx24.kotlin.library"
             implementationClass = "JvmLibraryConventionPlugin"
         }
         register("Hilt") {
-            id = "com.omar.android.hilt"
+            id = "com.tx24.android.hilt"
             implementationClass = "HiltConventionPlugin"
         }
         register("AndroidFeature") {
-            id = "com.omar.android.feature"
+            id = "com.tx24.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
         }
         register("AndroidCompose") {
-            id = "com.omar.android.compose"
+            id = "com.tx24.android.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
         register("AndroidApplication") {
-            id = "com.omar.android.application"
+            id = "com.tx24.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
         register("AndroidApplicationCompose") {
-            id = "com.omar.android.application.compose"
+            id = "com.tx24.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
     }

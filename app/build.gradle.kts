@@ -1,17 +1,21 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("com.omar.android.application")
-    id("com.omar.android.application.compose")
-    id("com.omar.android.hilt")
+    id("com.tx24.android.application")
+    id("com.tx24.android.application.compose")
+    id("com.tx24.android.hilt")
+    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.omar.musica"
+    namespace = "com.tx24.spicyplayer"
+    buildFeatures {
+        buildConfig = true
+    }
     //compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.omar.musica"
+        applicationId = "com.tx24.spicyplayer"
 
         versionCode = 1
         versionName = "1.0"
@@ -34,7 +38,7 @@ android {
 
         debug {
             applicationIdSuffix = ".debug"
-            resValue("string", "app_name", "MP debug")
+            resValue("string", "app_name", "Spicy Player.d")
         }
     }
 
@@ -53,17 +57,33 @@ dependencies {
     implementation(libs.media3.exoplayer)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.timber)
-    implementation(project(mapOf("path" to ":feature:songs")))
-    implementation(project(":feature:albums"))
-    implementation(project(mapOf("path" to ":core:ui")))
-    implementation(project(mapOf("path" to ":core:store")))
-    implementation(project(mapOf("path" to ":core:model")))
-    implementation(project(mapOf("path" to ":core:playback")))
-    implementation(project(mapOf("path" to ":feature:playlists")))
-    implementation(project(mapOf("path" to ":feature:nowplaying")))
-    implementation(project(mapOf("path" to ":feature:settings")))
-    implementation(project(mapOf("path" to ":feature:tageditor")))
-    implementation(project(mapOf("path" to ":feature:widgets")))
+    
+    // Extracted from features
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material.iconsExtended)
+    implementation(libs.androidx.compose.tooling)
+    debugImplementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.compose.material3.windowSizeClass)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtimeCompose)
+    implementation(libs.androidx.lifecycle.viewModelCompose)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+    implementation(libs.retrofit)
+    implementation(libs.gson.converter)
+    implementation(libs.okio)
+    implementation(libs.datastore)
+    implementation(libs.coil)
+    implementation(libs.androidx.palette)
+    implementation(libs.material)
+    implementation(libs.drag.reorder)
+    implementation(libs.jaudio.tagger)
+    implementation(libs.glance)
+    implementation(libs.glance.material)
+
     api(libs.accompanist.permissions)
 
     testImplementation(libs.junit)
