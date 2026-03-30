@@ -135,7 +135,6 @@
   - [x] Fix cover art swipe gesture working half the time
   - [x] Fix animations/transistions between pages
   - [ ] Organize the project folders
-    - [ ] Restructure feature modules into strictly separated core/ui/domain layers
   - [x] Fix button alignment with seekbar
   - [x] Low quality cover art
   - [x] Fix TTML & song matching
